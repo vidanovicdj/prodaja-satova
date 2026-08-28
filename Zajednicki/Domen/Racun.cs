@@ -51,7 +51,7 @@ namespace Zajednicki.Domen
                     IdProdavca = (int)citac["idProdavca"],
                     ImeProdavca = (string)citac["imeProdavca"],
                     PrezimeProdavca = (string)citac["prezimeProdavca"],
-                    DatumZaposlenja = (DateOnly)citac["datumZaposlenja"],
+                    DatumZaposlenja = (DateTime)citac["datumZaposlenja"],
                     KorisnickoIme = (string)citac["korisnickoIme"],
                     Lozinka = (string)citac["lozinka"]
                 },

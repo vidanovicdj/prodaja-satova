@@ -12,7 +12,7 @@ namespace Zajednicki.Domen
         public int IdProdavca { get; set; }
         public string ImeProdavca { get; set; }
         public string PrezimeProdavca { get; set; }
-        public DateOnly DatumZaposlenja { get; set; }
+        public DateTime DatumZaposlenja { get; set; }
         public string KorisnickoIme { get; set; }
         public string Lozinka { get; set; }
 
@@ -41,7 +41,7 @@ namespace Zajednicki.Domen
                 IdProdavca = (int)citac["idProdavca"],
                 ImeProdavca = (string)citac["imeProdavca"],
                 PrezimeProdavca = (string)citac["prezimeProdavca"],
-                DatumZaposlenja = (DateOnly)citac["datumZaposlenja"],
+                DatumZaposlenja = (DateTime)citac["datumZaposlenja"],
                 KorisnickoIme = (string)citac["korisnickoIme"],
                 Lozinka = (string)citac["lozinka"]
             };

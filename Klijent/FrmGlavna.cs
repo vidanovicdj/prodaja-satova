@@ -1,8 +1,8 @@
 namespace Klijent
 {
-    public partial class Form1 : Form
+    public partial class FrmGlavna : Form
     {
-        public Form1()
+        public FrmGlavna()
         {
             InitializeComponent();
         }

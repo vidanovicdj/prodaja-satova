@@ -10,7 +10,7 @@ namespace Zajednicki.Domen
     public class KvalifikacijaProdavca : IEntity
     {
         public int IdKvalifikacije { get; set; }
-        public DateOnly DatumZavrsetka { get; set; }
+        public DateTime DatumZavrsetka { get; set; }
         public string Institucija { get; set; }
         public Prodavac Prodavac { get; set; }
         public Sertifikat Sertifikat { get; set; }
@@ -35,14 +35,14 @@ namespace Zajednicki.Domen
             return new KvalifikacijaProdavca
             {
                 IdKvalifikacije = (int)citac["idKvalifikacije"],
-                DatumZavrsetka = (DateOnly)citac["datumZavrsetka"],
+                DatumZavrsetka = (DateTime)citac["datumZavrsetka"],
                 Institucija = (string)citac["institucija"],
                 Prodavac = new Prodavac
                 {
                     IdProdavca = (int)citac["idProdavca"],
                     ImeProdavca = (string)citac["imeProdavca"],
                     PrezimeProdavca = (string)citac["prezimeProdavca"],
-                    DatumZaposlenja = (DateOnly)citac["datumZaposlenja"],
+                    DatumZaposlenja = (DateTime)citac["datumZaposlenja"],
                     KorisnickoIme = (string)citac["korisnickoIme"],
                     Lozinka = (string)citac["lozinka"]
                 },
