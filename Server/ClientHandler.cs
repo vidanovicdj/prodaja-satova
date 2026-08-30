@@ -82,7 +82,38 @@ namespace Server
                 case Operacija.Kraj:
                     kraj = true;
                     break;
-
+                case Operacija.ZapamtiSat:
+                    Sat sat = JsonSerializer.Deserialize<Sat>((JsonElement)zahtev.Podaci);
+                    Kontroler.Instance.UbaciSat(sat);
+                    break;
+                case Operacija.VratiListuSvihSatova:
+                    odgovor.Podaci = Kontroler.Instance.VratiSveSatove();
+                    if(odgovor.Podaci == null)
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = " Trenutno nema ni jednog sata.";
+                    }
+                    break;
+                case Operacija.VratiSveTipoveKlijenata:
+                    odgovor.Podaci = Kontroler.Instance.VratiSveTipoveKlijenata();
+                    if(odgovor.Podaci == null)
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Trenutno nema ni jednog tipa klijenta.";
+                    }
+                    break;
+                case Operacija.ZapamtiKlijenta:
+                    Klijent klijent = JsonSerializer.Deserialize<Klijent>((JsonElement)zahtev.Podaci);
+                    Kontroler.Instance.UbaciKlijenta(klijent);
+                    break;
+                case Operacija.VratiListuSvihKlijenata:
+                    odgovor.Podaci = Kontroler.Instance.VratiSveKlijente();
+                    if(odgovor.Podaci == null)
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Trenutno nema ni jednog klijenta.";
+                    }
+                    break;
                 //ovde se dodaje za svaku operaciju
             }
 

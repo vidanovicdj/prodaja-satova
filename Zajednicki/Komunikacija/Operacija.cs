@@ -9,6 +9,11 @@ namespace Zajednicki.Komunikacija
     public enum Operacija
     {
         Login,
-        Kraj
+        Kraj,
+        ZapamtiSat,
+        VratiListuSvihSatova,
+        VratiSveTipoveKlijenata,
+        ZapamtiKlijenta,
+        VratiListuSvihKlijenata
     }
 }
