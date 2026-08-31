@@ -2,6 +2,7 @@
 using SistemskeOperacije.KlijentSO;
 using SistemskeOperacije.ProdavacSO;
 using SistemskeOperacije.SatSO;
+using SistemskeOperacije.SertifikatSO;
 using SistemskeOperacije.TipKlijentaSO;
 using System;
 using System.Collections.Generic;
@@ -36,6 +37,7 @@ namespace Server
             }
         }
 
+        /* PRODAVAC */
         public Prodavac Login(Prodavac p)
         {
             LoginSO so = new LoginSO();
@@ -105,6 +107,13 @@ namespace Server
             OpstaSO so = new ObrisiKlijentaSO(k);
             so.ExecuteTemplate(new Klijent());
             return ((ObrisiKlijentaSO)so).Rezultat;
+        }
+
+        /* SERTIFIKAT */
+        public void UbaciSertifikat(Sertifikat s)
+        {
+            OpstaSO so = new ZapamtiSertifikatSO(s);
+            so.ExecuteTemplate(s);
         }
     }
 }

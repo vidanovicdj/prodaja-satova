@@ -152,6 +152,10 @@ namespace Server
                         odgovor.Poruka = "Sistem ne može da obriše klijenta.";
                     }
                     break;
+                case Operacija.ZapamtiSertifikat:
+                    Sertifikat sertifikat = JsonSerializer.Deserialize<Sertifikat>((JsonElement)zahtev.Podaci);
+                    Kontroler.Instance.UbaciSertifikat(sertifikat);
+                    break;
 
                 //ovde se dodaje za svaku operaciju
             }
