@@ -32,8 +32,9 @@
             lblEmail = new Label();
             tbxEmailPretraga = new TextBox();
             btnPretrazi = new Button();
-            btnPrikazi = new Button();
+            btnIzmeni = new Button();
             dgvKlijenti = new DataGridView();
+            btnPrikaziSve = new Button();
             ((System.ComponentModel.ISupportInitialize)dgvKlijenti).BeginInit();
             SuspendLayout();
             // 
@@ -66,7 +67,7 @@
             // btnPretrazi
             // 
             btnPretrazi.BackColor = Color.Thistle;
-            btnPretrazi.Location = new Point(31, 133);
+            btnPretrazi.Location = new Point(246, 137);
             btnPretrazi.Name = "btnPretrazi";
             btnPretrazi.Size = new Size(171, 49);
             btnPretrazi.TabIndex = 3;
@@ -74,16 +75,16 @@
             btnPretrazi.UseVisualStyleBackColor = false;
             btnPretrazi.Click += btnPretrazi_Click;
             // 
-            // btnPrikazi
+            // btnIzmeni
             // 
-            btnPrikazi.BackColor = Color.Thistle;
-            btnPrikazi.Location = new Point(246, 133);
-            btnPrikazi.Name = "btnPrikazi";
-            btnPrikazi.Size = new Size(171, 49);
-            btnPrikazi.TabIndex = 4;
-            btnPrikazi.Text = "Prikaži";
-            btnPrikazi.UseVisualStyleBackColor = false;
-            btnPrikazi.Click += btnPrikazi_Click;
+            btnIzmeni.BackColor = Color.Thistle;
+            btnIzmeni.Location = new Point(461, 137);
+            btnIzmeni.Name = "btnIzmeni";
+            btnIzmeni.Size = new Size(171, 49);
+            btnIzmeni.TabIndex = 4;
+            btnIzmeni.Text = "Izmeni";
+            btnIzmeni.UseVisualStyleBackColor = false;
+            btnIzmeni.Click += btnPrikazi_Click;
             // 
             // dgvKlijenti
             // 
@@ -95,14 +96,26 @@
             dgvKlijenti.Size = new Size(701, 276);
             dgvKlijenti.TabIndex = 5;
             // 
+            // btnPrikaziSve
+            // 
+            btnPrikaziSve.BackColor = Color.Thistle;
+            btnPrikaziSve.Location = new Point(31, 137);
+            btnPrikaziSve.Name = "btnPrikaziSve";
+            btnPrikaziSve.Size = new Size(171, 49);
+            btnPrikaziSve.TabIndex = 6;
+            btnPrikaziSve.Text = "Prikaži sve";
+            btnPrikaziSve.UseVisualStyleBackColor = false;
+            btnPrikaziSve.Click += btnPrikaziSve_Click;
+            // 
             // FrmPretraziKlijente
             // 
             AutoScaleDimensions = new SizeF(10F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.LavenderBlush;
             ClientSize = new Size(767, 495);
+            Controls.Add(btnPrikaziSve);
             Controls.Add(dgvKlijenti);
-            Controls.Add(btnPrikazi);
+            Controls.Add(btnIzmeni);
             Controls.Add(btnPretrazi);
             Controls.Add(tbxEmailPretraga);
             Controls.Add(lblEmail);
@@ -111,6 +124,7 @@
             Margin = new Padding(4, 3, 4, 3);
             Name = "FrmPretraziKlijente";
             Text = "Pretraga klijenata";
+            Load += FrmPretraziKlijente_Load;
             ((System.ComponentModel.ISupportInitialize)dgvKlijenti).EndInit();
             ResumeLayout(false);
             PerformLayout();
@@ -122,7 +136,8 @@
         private Label lblEmail;
         internal TextBox tbxEmailPretraga;
         private Button btnPretrazi;
-        private Button btnPrikazi;
+        private Button btnIzmeni;
         internal DataGridView dgvKlijenti;
+        private Button btnPrikaziSve;
     }
 }

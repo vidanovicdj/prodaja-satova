@@ -150,6 +150,23 @@ namespace Klijent.GUIKontroler.KlijentKontroler
             }
         }
 
+        public void PrikaziSveKlijente()
+        {
+            try
+            {
+                InicijalizujDgvKlijenti(
+                    Communication.Instance.PosaljiZahtevVratiRezultat<List<Zajednicki.Domen.Klijent>>(
+                        Operacija.VratiListuSvihKlijenata));
+                MessageBox.Show("Sistem je pronašao klijente.",
+                    "Uspeh", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception)
+            {
+                MessageBox.Show("Sistem ne može da pronađe klijente.",
+                    "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void PokreniFormu(Zajednicki.Domen.Klijent k)
         {
             FrmIzbrisiIzmeniKlijenta frm = new FrmIzbrisiIzmeniKlijenta(k);

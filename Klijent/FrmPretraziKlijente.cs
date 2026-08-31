@@ -29,5 +29,15 @@ namespace Klijent
         {
             controller.PrikaziKlijente();
         }
+
+        private void btnPrikaziSve_Click(object sender, EventArgs e)
+        {
+            controller.PrikaziSveKlijente();
+        }
+
+        private void FrmPretraziKlijente_Load(object sender, EventArgs e)
+        {
+            controller.PrikaziSveKlijente();
+        }
     }
 }

@@ -8,7 +8,9 @@ namespace Zajednicki.Komunikacija
 {
     public enum Operacija
     {
+        // prodavac
         Login,
+        VratiListuSvihProdavaca,
         Kraj,
         // sat
         ZapamtiSat,
@@ -21,6 +23,14 @@ namespace Zajednicki.Komunikacija
         NadjiKlijente,
         UcitajKlijente,
         IzmeniKlijenta,
-        IzbrisiKlijenta
+        IzbrisiKlijenta,
+        // sertifikat
+        ZapamtiSertifikat,
+        // racun
+        ZapamtiRacun,
+        VratiListuSvihRacuna,
+        NadjiRacune,
+        UcitajRacune,
+        IzmeniRacun
     }
 }
