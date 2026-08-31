@@ -65,7 +65,7 @@
             // ubaciSatToolStripMenuItem
             // 
             ubaciSatToolStripMenuItem.Name = "ubaciSatToolStripMenuItem";
-            ubaciSatToolStripMenuItem.Size = new Size(224, 26);
+            ubaciSatToolStripMenuItem.Size = new Size(163, 26);
             ubaciSatToolStripMenuItem.Text = "Ubaci sat";
             ubaciSatToolStripMenuItem.Click += ubaciSatToolStripMenuItem_Click;
             // 
@@ -88,6 +88,7 @@
             pretraziKlijentaToolStripMenuItem.Name = "pretraziKlijentaToolStripMenuItem";
             pretraziKlijentaToolStripMenuItem.Size = new Size(224, 26);
             pretraziKlijentaToolStripMenuItem.Text = "Pretraži klijenta";
+            pretraziKlijentaToolStripMenuItem.Click += pretraziKlijentaToolStripMenuItem_Click;
             // 
             // racunToolStripMenuItem
             // 

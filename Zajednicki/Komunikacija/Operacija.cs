@@ -10,10 +10,17 @@ namespace Zajednicki.Komunikacija
     {
         Login,
         Kraj,
+        // sat
         ZapamtiSat,
         VratiListuSvihSatova,
+        // tip klijenta
         VratiSveTipoveKlijenata,
+        // klijent
         ZapamtiKlijenta,
-        VratiListuSvihKlijenata
+        VratiListuSvihKlijenata,
+        NadjiKlijente,
+        UcitajKlijente,
+        IzmeniKlijenta,
+        IzbrisiKlijenta
     }
 }

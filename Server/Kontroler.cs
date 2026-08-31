@@ -48,7 +48,8 @@ namespace Server
             so.ExecuteTemplate(new Prodavac());
             return ((VratiListuSvihProdavacaSO)so).Rezultat;
         }
-
+        
+        /* SAT */
         public void UbaciSat(Sat sat)
         {
             OpstaSO so = new ZapamtiSatSO(sat);
@@ -61,12 +62,15 @@ namespace Server
             return ((VratiListuSvihSatovaSO)so).Rezultat;
         }
 
+        /* TIP KLIJENTA */
         public List<TipKlijenta> VratiSveTipoveKlijenata()
         {
             OpstaSO so = new VratiListuSvihTipovaKlijenataSO();
             so.ExecuteTemplate(new TipKlijenta());
             return ((VratiListuSvihTipovaKlijenataSO)so).Rezultat;
         }
+
+        /* KLIJENT */
         public void UbaciKlijenta(Klijent k)
         {
             OpstaSO so = new ZapamtiKlijentaSO(k);
@@ -77,6 +81,30 @@ namespace Server
             OpstaSO so = new VratiListuSvihKlijenataSO();
             so.ExecuteTemplate(new Klijent());
             return ((VratiListuSvihKlijenataSO)so).Rezultat;
+        }
+        public List<Klijent> NadjiKlijente(Klijent k)
+        {
+            OpstaSO so = new NadijKlijenteSO();
+            so.ExecuteTemplate(k);
+            return ((NadijKlijenteSO)so).Rezultat;
+        }
+        public Klijent UcitajKlijenta(Klijent k)
+        {
+            OpstaSO so = new UcitajKlijenteSO(k);
+            so.ExecuteTemplate(new Klijent());
+            return ((UcitajKlijenteSO)so).Rezultat;
+        }
+        public bool IzmeniKlijenta(Klijent k)
+        {
+            OpstaSO so = new IzmeniKlijentaSO(k);
+            so.ExecuteTemplate(new Klijent());
+            return ((IzmeniKlijentaSO)so).Rezultat;
+        }
+        public bool ObrisiKlijenta(Klijent k)
+        {
+            OpstaSO so = new ObrisiKlijentaSO(k);
+            so.ExecuteTemplate(new Klijent());
+            return ((ObrisiKlijentaSO)so).Rezultat;
         }
     }
 }

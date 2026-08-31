@@ -103,8 +103,8 @@ namespace Server
                     }
                     break;
                 case Operacija.ZapamtiKlijenta:
-                    Klijent klijent = JsonSerializer.Deserialize<Klijent>((JsonElement)zahtev.Podaci);
-                    Kontroler.Instance.UbaciKlijenta(klijent);
+                    Klijent kSave = JsonSerializer.Deserialize<Klijent>((JsonElement)zahtev.Podaci);
+                    Kontroler.Instance.UbaciKlijenta(kSave);
                     break;
                 case Operacija.VratiListuSvihKlijenata:
                     odgovor.Podaci = Kontroler.Instance.VratiSveKlijente();
@@ -114,6 +114,45 @@ namespace Server
                         odgovor.Poruka = "Trenutno nema ni jednog klijenta.";
                     }
                     break;
+                case Operacija.NadjiKlijente:
+                    Klijent k = JsonSerializer.Deserialize<Klijent>((JsonElement)zahtev.Podaci);
+                    List<Klijent> pronadjeniKlijenti = Kontroler.Instance.NadjiKlijente(k);
+                    if(pronadjeniKlijenti == null || pronadjeniKlijenti.Count == 0)
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Sistem ne može da pronađe klijente po zadatom kriterijumu.";
+                    }
+                    else
+                    {
+                        odgovor.Podaci = pronadjeniKlijenti;
+                    }
+                    break;
+                case Operacija.UcitajKlijente:
+                    Klijent klijent = JsonSerializer.Deserialize<Klijent>((JsonElement)zahtev.Podaci);
+                    odgovor.Podaci = Kontroler.Instance.UcitajKlijenta(klijent);
+                    if(odgovor.Podaci == null)
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Sistem ne može da učita klijenta.";
+                    }
+                    break;
+                case Operacija.IzmeniKlijenta:
+                    Klijent kUpdate = JsonSerializer.Deserialize<Klijent>((JsonElement)zahtev.Podaci);
+                    if (!Kontroler.Instance.IzmeniKlijenta(kUpdate))
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Sistem ne može da izmeni klijenta.";
+                    }
+                    break;
+                case Operacija.IzbrisiKlijenta:
+                    Klijent kDelete = JsonSerializer.Deserialize<Klijent>((JsonElement)zahtev.Podaci);
+                    if (!Kontroler.Instance.ObrisiKlijenta(kDelete))
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Sistem ne može da obriše klijenta.";
+                    }
+                    break;
+
                 //ovde se dodaje za svaku operaciju
             }
 

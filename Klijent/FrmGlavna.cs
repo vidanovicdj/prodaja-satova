@@ -23,5 +23,11 @@ namespace Klijent
             FrmUbaciKlijenta frm = new FrmUbaciKlijenta();
             frm.ShowDialog(this);
         }
+
+        private void pretraziKlijentaToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmPretraziKlijente frm = new FrmPretraziKlijente();
+            frm.ShowDialog(this);
+        }
     }
 }
