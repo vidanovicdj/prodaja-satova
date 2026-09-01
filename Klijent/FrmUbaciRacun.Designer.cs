@@ -333,7 +333,7 @@
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(4, 3, 4, 3);
             Name = "FrmUbaciRacun";
-            Text = "FrmUbaciRacun";
+            Text = "Ubaci račun";
             pnlUnosStavki.ResumeLayout(false);
             pnlUnosStavki.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dgvStavke).EndInit();

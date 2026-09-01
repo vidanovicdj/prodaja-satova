@@ -97,7 +97,7 @@
             Controls.Add(lblUsername);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Name = "FrmLogin";
-            Text = "FrmLogin";
+            Text = "Login";
             ResumeLayout(false);
             PerformLayout();
         }

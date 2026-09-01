@@ -47,7 +47,7 @@ namespace Klijent.GUIKontroler.ProdavacKontroler
                 prodavac = Communication.Instance.PosaljiZahtevVratiRezultat<Zajednicki.Domen.Prodavac>(Operacija.Login, prodavac);
                 Session.Instance.TrenutnoPrijavljeni = prodavac;
 
-                MessageBox.Show("Korisničko ime i lozinka su ispravni." +
+                MessageBox.Show("Korisničko ime i lozinka su ispravni. " +
                     "Dobro došli, " + prodavac.PunoIme + "!", "Uspešna prijava",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
 

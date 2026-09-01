@@ -242,7 +242,7 @@
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
             Margin = new Padding(4, 3, 4, 3);
             Name = "FrmUbaciSat";
-            Text = "FrmUbaciSat";
+            Text = "Ubaci sat";
             ResumeLayout(false);
             PerformLayout();
         }
