@@ -101,14 +101,14 @@
             // ubaciRacunToolStripMenuItem
             // 
             ubaciRacunToolStripMenuItem.Name = "ubaciRacunToolStripMenuItem";
-            ubaciRacunToolStripMenuItem.Size = new Size(224, 26);
+            ubaciRacunToolStripMenuItem.Size = new Size(200, 26);
             ubaciRacunToolStripMenuItem.Text = "Ubaci račun";
             ubaciRacunToolStripMenuItem.Click += ubaciRacunToolStripMenuItem_Click;
             // 
             // pretraziRacunToolStripMenuItem
             // 
             pretraziRacunToolStripMenuItem.Name = "pretraziRacunToolStripMenuItem";
-            pretraziRacunToolStripMenuItem.Size = new Size(224, 26);
+            pretraziRacunToolStripMenuItem.Size = new Size(200, 26);
             pretraziRacunToolStripMenuItem.Text = "Pretraži račun";
             pretraziRacunToolStripMenuItem.Click += pretraziRacunToolStripMenuItem_Click;
             // 
@@ -134,9 +134,12 @@
             ClientSize = new Size(764, 450);
             Controls.Add(menuStrip);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             MainMenuStrip = menuStrip;
             Margin = new Padding(4, 3, 4, 3);
+            MinimizeBox = false;
             Name = "FrmGlavna";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Prodaja satova";
             menuStrip.ResumeLayout(false);
             menuStrip.PerformLayout();

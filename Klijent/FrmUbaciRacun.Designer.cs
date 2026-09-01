@@ -331,8 +331,11 @@
             Controls.Add(lblKlijent);
             Controls.Add(lblProdavac);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             Name = "FrmUbaciRacun";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Ubaci račun";
             pnlUnosStavki.ResumeLayout(false);
             pnlUnosStavki.PerformLayout();

@@ -121,8 +121,11 @@
             Controls.Add(lblKriterijum);
             Controls.Add(lblOpis);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             Name = "FrmPretraziRacune";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Pretraga računa";
             ((System.ComponentModel.ISupportInitialize)dgvRacuni).EndInit();
             ResumeLayout(false);

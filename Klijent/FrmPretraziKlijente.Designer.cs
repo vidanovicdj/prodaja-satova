@@ -121,8 +121,11 @@
             Controls.Add(lblEmail);
             Controls.Add(lblOpis);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             Name = "FrmPretraziKlijente";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Pretraga klijenata";
             Load += FrmPretraziKlijente_Load;
             ((System.ComponentModel.ISupportInitialize)dgvKlijenti).EndInit();

@@ -169,8 +169,11 @@
             Controls.Add(lblPrezimeKlijenta);
             Controls.Add(lblImeKlijenta);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             Name = "FrmIzbrisiIzmeniKlijenta";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Izmena korisnika";
             ResumeLayout(false);
             PerformLayout();

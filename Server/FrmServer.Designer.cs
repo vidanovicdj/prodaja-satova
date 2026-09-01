@@ -75,8 +75,11 @@
             Controls.Add(btnStop);
             Controls.Add(btnStart);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4);
+            MaximizeBox = false;
             Name = "FrmServer";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Server";
             ResumeLayout(false);
             PerformLayout();

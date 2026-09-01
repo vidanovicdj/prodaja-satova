@@ -331,8 +331,11 @@
             Controls.Add(lblPunaCena);
             Controls.Add(dtpDatumIzdavanja);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             Name = "FrmIzmeniRacun";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Izmena računa";
             ((System.ComponentModel.ISupportInitialize)dgvStavke).EndInit();
             pnlUnosStavki.ResumeLayout(false);

@@ -156,7 +156,10 @@
             Controls.Add(lblPrezimeKlijenta);
             Controls.Add(lblImeKlijenta);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
+            MaximizeBox = false;
             Name = "FrmUbaciKlijenta";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Ubaci klijenta";
             ResumeLayout(false);
             PerformLayout();

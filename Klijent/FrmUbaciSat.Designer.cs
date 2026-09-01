@@ -240,8 +240,11 @@
             Controls.Add(lblNazivModela);
             Controls.Add(lblBrend);
             Font = new Font("Georgia", 10.2F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            FormBorderStyle = FormBorderStyle.FixedSingle;
             Margin = new Padding(4, 3, 4, 3);
+            MaximizeBox = false;
             Name = "FrmUbaciSat";
+            StartPosition = FormStartPosition.CenterScreen;
             Text = "Ubaci sat";
             ResumeLayout(false);
             PerformLayout();
