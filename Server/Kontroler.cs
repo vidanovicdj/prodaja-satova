@@ -1,6 +1,7 @@
 ﻿using SistemskeOperacije;
 using SistemskeOperacije.KlijentSO;
 using SistemskeOperacije.ProdavacSO;
+using SistemskeOperacije.RacunSO;
 using SistemskeOperacije.SatSO;
 using SistemskeOperacije.SertifikatSO;
 using SistemskeOperacije.TipKlijentaSO;
@@ -114,6 +115,31 @@ namespace Server
         {
             OpstaSO so = new ZapamtiSertifikatSO(s);
             so.ExecuteTemplate(s);
+        }
+
+        /* RAČUN */
+        public void UbaciRacun(Racun r)
+        {
+            OpstaSO so = new ZapamtiRacunSO();
+            so.ExecuteTemplate(r);
+        }
+        public List<Racun> NadjiRacune(Racun r)
+        {
+            OpstaSO so = new NadjiRacuneSO();
+            so.ExecuteTemplate(r);
+            return ((NadjiRacuneSO)so).Rezultat;
+        }
+        public Racun UcitajRacun(Racun r)
+        {
+            OpstaSO so = new UcitajRacuneSO(r);
+            so.ExecuteTemplate(new Racun());
+            return ((UcitajRacuneSO)so).Rezultat;
+        }
+        public bool IzmeniRacun(Racun r)
+        {
+            OpstaSO so = new IzmeniRacunSO(r);
+            so.ExecuteTemplate(new Racun());
+            return ((IzmeniRacunSO)so).Rezultat;
         }
     }
 }

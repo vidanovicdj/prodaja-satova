@@ -16,6 +16,8 @@ namespace Zajednicki.Domen
         public double CenaSata { get; set; }
         public int KolicinaNaStanju { get; set; }
 
+        public string ModelSata => $"{Brend} {NazivModela}";
+
         public string NazivTabele => "Sat";
 
         public string Vrednosti => 
@@ -42,9 +44,9 @@ namespace Zajednicki.Domen
                 Brend = (string)citac["brend"],
                 NazivModela = (string)citac["nazivModela"],
                 SifraModela = (string)citac["sifraModela"],
-                TipMehanizma = (TipMehanizma)citac["tipMehanizma"],
+                TipMehanizma = Enum.Parse<TipMehanizma>((string)citac["tipMehanizma"]),
                 DimenzijeKucista = (double)citac["dimenzijeKucista"],
-                Staklo = (Staklo)citac["staklo"],
+                Staklo = Enum.Parse<Staklo>((string)citac["staklo"]),
                 Materijal = (string)citac["materijal"],
                 CenaSata = (double)citac["cenaSata"],
                 KolicinaNaStanju = (int)citac["kolicinaNaStanju"]

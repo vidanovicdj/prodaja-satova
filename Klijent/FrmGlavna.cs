@@ -35,5 +35,11 @@ namespace Klijent
             FrmUbaciSertifikat frm = new FrmUbaciSertifikat();
             frm.ShowDialog(this);
         }
+
+        private void ubaciRacunToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmUbaciRacun frm = new FrmUbaciRacun();
+            frm.ShowDialog(this);
+        }
     }
 }

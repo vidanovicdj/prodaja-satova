@@ -94,6 +94,14 @@ namespace Server
                         odgovor.Poruka = " Trenutno nema ni jednog sata.";
                     }
                     break;
+                case Operacija.VratiListuSvihProdavaca:
+                    odgovor.Podaci = Kontroler.Instance.VratiSveProdavce();
+                    if (odgovor.Podaci == null)
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = " Trenutno nema ni jednog prodavca.";
+                    }
+                    break;
                 case Operacija.VratiSveTipoveKlijenata:
                     odgovor.Podaci = Kontroler.Instance.VratiSveTipoveKlijenata();
                     if(odgovor.Podaci == null)
@@ -156,8 +164,50 @@ namespace Server
                     Sertifikat sertifikat = JsonSerializer.Deserialize<Sertifikat>((JsonElement)zahtev.Podaci);
                     Kontroler.Instance.UbaciSertifikat(sertifikat);
                     break;
-
-                //ovde se dodaje za svaku operaciju
+                case Operacija.ZapamtiRacun:
+                    Racun rSave = JsonSerializer.Deserialize<Racun>((JsonElement)zahtev.Podaci);
+                    Kontroler.Instance.UbaciRacun(rSave);
+                    break;
+                case Operacija.VratiListuSvihRacuna:
+                    odgovor.Podaci = Kontroler.Instance.VratiSveProdavce();
+                    if (odgovor.Podaci == null)
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Trenutno nema ni jednog računa.";
+                    }
+                    break;
+                case Operacija.NadjiRacune:
+                    Racun racunZaPretragu = JsonSerializer.Deserialize<Racun>(
+                        (JsonElement)zahtev.Podaci);
+                    List<Racun> pronadjeniRacuni = Kontroler.Instance.NadjiRacune(racunZaPretragu);
+                    if (pronadjeniRacuni == null || pronadjeniRacuni.Count == 0)
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Sistem ne može da pronađe račune po zadatom kriterijumu.";
+                    }
+                    else
+                    {
+                        odgovor.Podaci = pronadjeniRacuni;
+                    }
+                    break;
+                case Operacija.UcitajRacune:
+                    Racun racun = JsonSerializer.Deserialize<Racun>((JsonElement)zahtev.Podaci);
+                    odgovor.Podaci = Kontroler.Instance.UcitajRacun(racun);
+                    if (odgovor.Podaci == null)
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Sistem ne može da učita račun.";
+                    }
+                    break;
+                case Operacija.IzmeniRacun:
+                    Racun rUpdate = JsonSerializer.Deserialize<Racun>((JsonElement)zahtev.Podaci);
+                    if (!Kontroler.Instance.IzmeniRacun(rUpdate))
+                    {
+                        odgovor.Signal = false;
+                        odgovor.Poruka = "Sistem ne može da izmeni račun.";
+                    }
+                    break;
+                    //ovde se dodaje za svaku operaciju
             }
 
             return odgovor;

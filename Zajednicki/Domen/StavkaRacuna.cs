@@ -1,10 +1,11 @@
 ﻿using Microsoft.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
 
 namespace Zajednicki.Domen
 {
@@ -16,6 +17,8 @@ namespace Zajednicki.Domen
         public double CenaStavke { get; set; }
         public int IdRacuna { get; set; }
         public Sat Sat { get; set; }
+
+        public string NazivSata => Sat?.ModelSata;
         public string NazivTabele => "StavkaRacuna";
 
         public string Vrednosti
@@ -25,7 +28,10 @@ namespace Zajednicki.Domen
                 if (Sat == null || Sat.IdSata == 0)
                     throw new InvalidOperationException("Stavka mora ima validan sat sa IdSata");
 
-                return $"({IdRacuna}, {Sat.IdSata}, {Kolicina}, {JedinicnaCena}, {CenaStavke})";
+                return $"({IdRacuna}, {Sat.IdSata}, " +
+                    $"{JedinicnaCena.ToString(CultureInfo.InvariantCulture)}, " +
+                    $"{CenaStavke.ToString(CultureInfo.InvariantCulture)}," +
+                    $"{Kolicina})";
             }
         }
 
@@ -39,7 +45,11 @@ namespace Zajednicki.Domen
 
         public string JoinUslov => " sr JOIN Racun r ON (sr.idRacuna=r.idRacuna) JOIN Sat s ON (sr.idSata=s.idSata)";
 
-        public string UpdateUslov => $"kolicina={Kolicina}, jedinicnaCena={JedinicnaCena}, cenaStavke={CenaStavke}, idSata={Sat?.IdSata ?? 0}";
+        public string UpdateUslov => 
+            $"kolicina={Kolicina}, " +
+            $"jedinicnaCena={JedinicnaCena.ToString(CultureInfo.InvariantCulture)}, " +
+            $"cenaStavke={CenaStavke.ToString(CultureInfo.InvariantCulture)}," +
+            $"idSata={Sat?.IdSata ?? 0}";
 
         public IEntity ProcitajObjekat(SqlDataReader citac)
         {
@@ -56,9 +66,9 @@ namespace Zajednicki.Domen
                     Brend = (string)citac["brend"],
                     NazivModela = (string)citac["nazivModela"],
                     SifraModela = (string)citac["sifraModela"],
-                    TipMehanizma = (TipMehanizma)citac["tipMehanizma"],
+                    TipMehanizma = Enum.Parse<TipMehanizma>((string)citac["tipMehanizma"]),
                     DimenzijeKucista = (double)citac["dimenzijeKucista"],
-                    Staklo = (Staklo)citac["staklo"],
+                    Staklo = Enum.Parse<Staklo>((string)citac["staklo"]),
                     Materijal = (string)citac["materijal"],
                     CenaSata = (double)citac["cenaSata"],
                     KolicinaNaStanju = (int)citac["kolicinaNaStanju"]

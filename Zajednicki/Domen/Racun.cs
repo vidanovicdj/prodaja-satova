@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.Data.SqlClient;
 
 namespace Zajednicki.Domen
 {
@@ -14,7 +15,7 @@ namespace Zajednicki.Domen
         public double ProcenatPopusta { get; set; }
         public double IznosPunaCena { get; set; }
         public double IznosSaPopustom { get; set; }
-        public string NacinPlacanja { get; set; }
+        public NacinPlacanja NacinPlacanja { get; set; }
         public Prodavac Prodavac { get; set; }
         public Klijent Klijent { get; set; }
 
@@ -22,7 +23,14 @@ namespace Zajednicki.Domen
         public List<StavkaRacuna> StavkeZaBrisanje { get; set; }
         public string NazivTabele => "Racun";
 
-        public string Vrednosti => $"('{DatumIzdavanja:yyyy-MM-dd}',{ProcenatPopusta},{IznosPunaCena},{IznosSaPopustom},'{NacinPlacanja}', {Prodavac?.IdProdavca ?? 0}, {Klijent?.IdKlijenta ?? 0})";
+        public string Vrednosti => 
+            $"('{DatumIzdavanja:yyyy-MM-dd}'," +
+            $"{ProcenatPopusta.ToString(CultureInfo.InvariantCulture)}," +
+            $"{IznosPunaCena.ToString(CultureInfo.InvariantCulture)}," +
+            $"{IznosSaPopustom.ToString(CultureInfo.InvariantCulture)}," +
+            $"'{NacinPlacanja}', " +
+            $"{Prodavac?.IdProdavca ?? 0}, " +
+            $"{Klijent?.IdKlijenta ?? 0})";
 
         public string Uslov => $"idRacuna={IdRacuna}";
 
@@ -30,11 +38,17 @@ namespace Zajednicki.Domen
 
         public string Output => "idRacuna";
 
-        public string Kriterijum => $"k.imeKlijenta LIKE '%{Klijent.ImeKlijenta}%' OR k.prezimeKlijenta LIKE '%{Klijent.PrezimeKlijenta}%'";
+        public string Kriterijum => $" k.imeKlijenta LIKE '%{Klijent.ImeKlijenta}%' OR k.prezimeKlijenta LIKE '%{Klijent.PrezimeKlijenta}%'";
 
         public string JoinUslov => " r JOIN Prodavac p ON (r.idProdavca=p.idProdavca) JOIN Klijent k ON (r.idKlijenta=k.idKlijenta)";
 
-        public string UpdateUslov => $"datumIzdavanja='{DatumIzdavanja:yyyy-MM-dd}',procenatPopusta={ProcenatPopusta},iznosPunaCena={IznosPunaCena},iznosSaPopustom={IznosSaPopustom},nacinPlacanja='{NacinPlacanja}', idProdavca={Prodavac?.IdProdavca ?? 0}, idKlijenta={Klijent?.IdKlijenta ?? 0}";
+        public string UpdateUslov => 
+            $"datumIzdavanja='{DatumIzdavanja:yyyy-MM-dd}'," +
+            $"procenatPopusta={ProcenatPopusta.ToString(CultureInfo.InvariantCulture)}," +
+            $"iznosPunaCena={IznosPunaCena.ToString(CultureInfo.InvariantCulture)}," +
+            $"iznosSaPopustom={IznosSaPopustom.ToString(CultureInfo.InvariantCulture)}," +
+            $"nacinPlacanja='{NacinPlacanja}', " +
+            $"idProdavca={Prodavac?.IdProdavca ?? 0}, idKlijenta={Klijent?.IdKlijenta ?? 0}";
 
         public IEntity ProcitajObjekat(SqlDataReader citac)
         {
@@ -45,7 +59,7 @@ namespace Zajednicki.Domen
                 ProcenatPopusta = (double)citac["procenatPopusta"],
                 IznosPunaCena = (double)citac["iznosPunaCena"],
                 IznosSaPopustom = (double)citac["iznosSaPopustom"],
-                NacinPlacanja = (string)citac["nacinPlacanja"],
+                NacinPlacanja = Enum.Parse<NacinPlacanja>((string)citac["nacinPlacanja"]),
                 Prodavac = new Prodavac
                 {
                     IdProdavca = (int)citac["idProdavca"],
