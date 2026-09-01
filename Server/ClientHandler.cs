@@ -169,7 +169,7 @@ namespace Server
                     Kontroler.Instance.UbaciRacun(rSave);
                     break;
                 case Operacija.VratiListuSvihRacuna:
-                    odgovor.Podaci = Kontroler.Instance.VratiSveProdavce();
+                    odgovor.Podaci = Kontroler.Instance.VratiSveRacune();
                     if (odgovor.Podaci == null)
                     {
                         odgovor.Signal = false;

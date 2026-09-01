@@ -2,8 +2,6 @@
 using Klijent.ServerKomunikacija;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.DirectoryServices.ActiveDirectory;
 using System.Globalization;
 using System.Linq;
 using System.Text;
@@ -13,17 +11,19 @@ using Zajednicki.Komunikacija;
 
 namespace Klijent.GUIKontroler.RacunKontroler
 {
-    public class RacunController
+    public class RacunIzmeniController
     {
-        private FrmUbaciRacun forma;
-        private BindingList<StavkaRacuna> stavke;
+        private FrmIzmeniRacun forma;
         private Racun trenutniRacun;
-        public RacunController(FrmUbaciRacun forma)
+
+        public RacunIzmeniController(FrmIzmeniRacun forma, Racun racun)
         {
             this.forma = forma;
-            stavke = new BindingList<StavkaRacuna>();
-            trenutniRacun = new Racun();
-            //Init();
+            trenutniRacun = racun;
+            if(trenutniRacun.StavkeZaBrisanje == null)
+            {
+                trenutniRacun.StavkeZaBrisanje = new List<StavkaRacuna>();
+            }
         }
 
         public void Init()
@@ -42,9 +42,25 @@ namespace Klijent.GUIKontroler.RacunKontroler
                 forma.cbKlijenti.DisplayMember = "PunoIme";
                 forma.cbSatovi.DisplayMember = "ModelSata";
 
-                forma.dgvStavke.DataSource = stavke;
+                forma.cbProdavci.Text = trenutniRacun.Prodavac.PunoIme;
+                forma.cbKlijenti.Text = trenutniRacun.Klijent.PunoIme;
+                forma.dtpDatumIzdavanja.Value = trenutniRacun.DatumIzdavanja;
+                forma.tbxPunaCena.Text = trenutniRacun.IznosPunaCena.ToString("F2", CultureInfo.InvariantCulture);
+                forma.tbxProcenatPopusta.Text = trenutniRacun.ProcenatPopusta.ToString("F2", CultureInfo.InvariantCulture);
+                forma.tbxCenaSaPopustom.Text = trenutniRacun.IznosSaPopustom.ToString("F2", CultureInfo.InvariantCulture);
+                forma.cbNacinPlacanja.Text = trenutniRacun.NacinPlacanja.ToString();
+
+                forma.dgvStavke.DataSource = trenutniRacun.Stavke;
 
                 SakrijNepotrebneKolone();
+            }
+            catch (ServerCommunicationException sce)
+            {
+                MessageBox.Show(sce.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+            catch (SystemOperationException se)
+            {
+                MessageBox.Show(se.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (Exception ex)
             {
@@ -82,13 +98,13 @@ namespace Klijent.GUIKontroler.RacunKontroler
             Sat selektovanSat = (Sat)forma.cbSatovi.SelectedItem;
             if (selektovanSat == null) return;
 
-            if(!int.TryParse(forma.tbxKolicina.Text, out int kolicina) || kolicina <= 0)
+            if (!int.TryParse(forma.tbxKolicina.Text, out int kolicina) || kolicina <= 0)
             {
                 MessageBox.Show("Polje Količina mora biti ceo broj!", "Greška",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(kolicina > selektovanSat.KolicinaNaStanju)
+            if (kolicina > selektovanSat.KolicinaNaStanju)
             {
                 MessageBox.Show("Količina zaliha ne sme spasti ispod 0! Nemate dovoljno satova na stanju.",
                     "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -99,18 +115,22 @@ namespace Klijent.GUIKontroler.RacunKontroler
 
             StavkaRacuna sr = new StavkaRacuna()
             {
+                RbStavkeRacuna = 0,
+                IdRacuna = trenutniRacun.IdRacuna,
                 Sat = selektovanSat,
                 Kolicina = kolicina,
                 JedinicnaCena = selektovanSat.CenaSata,
                 CenaStavke = iznosStavke
             };
 
-            stavke.Add(sr);
+            trenutniRacun.Stavke.Add(sr);
             selektovanSat.KolicinaNaStanju -= 1;
+
+            forma.dgvStavke.DataSource = null;
+            forma.dgvStavke.DataSource = trenutniRacun.Stavke;
 
             IzracunajCenuRacuna();
 
-            forma.dgvStavke.Refresh();
             SakrijNepotrebneKolone();
             OcistiPanel();
         }
@@ -123,31 +143,55 @@ namespace Klijent.GUIKontroler.RacunKontroler
             forma.tbxCenaStavke.Clear();
         }
 
+        private void IzracunajCenuRacuna()
+        {
+            if (!double.TryParse(forma.tbxProcenatPopusta.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double popust)) return;
+            //if (!double.TryParse(forma.tbxPunaCena.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double punaCena)) return;
+            double punaCena = 0;
+
+            foreach (var stavka in trenutniRacun.Stavke)
+            {
+                punaCena += stavka.CenaStavke;
+            }
+
+            double cenaSaPopustom = punaCena * (1 - popust);
+
+            forma.tbxPunaCena.Text = punaCena.ToString("F2", CultureInfo.InvariantCulture);
+            forma.tbxCenaSaPopustom.Text = cenaSaPopustom.ToString("F2", CultureInfo.InvariantCulture);
+        }
+
         public void ObrisiStavku()
         {
-            if(stavke.Count == 0)
+            if (trenutniRacun.Stavke.Count == 0)
             {
-                MessageBox.Show("Nema stavki za brisanje.", "Greška", 
+                MessageBox.Show("Nema stavki za brisanje.", "Greška",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-            if(forma.dgvStavke.SelectedRows.Count == 0)
+            if (forma.dgvStavke.SelectedRows.Count == 0)
             {
-                MessageBox.Show("Niste odabrali stavku za brisanje", "Greška", 
+                MessageBox.Show("Niste odabrali stavku za brisanje", "Greška",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
 
             StavkaRacuna selektovana = (StavkaRacuna)forma.dgvStavke.SelectedRows[0].DataBoundItem;
 
-            stavke.Remove(selektovana);
+            if(selektovana.RbStavkeRacuna != 0)
+            {
+                trenutniRacun.StavkeZaBrisanje.Add(selektovana);
+            }
+
+            trenutniRacun.Stavke.Remove(selektovana);
             selektovana.Sat.KolicinaNaStanju += selektovana.Kolicina;
 
-            forma.dgvStavke.Refresh();
+            forma.dgvStavke.DataSource = null;
+            forma.dgvStavke.DataSource = trenutniRacun.Stavke;
             SakrijNepotrebneKolone();
+            IzracunajCenuRacuna();
         }
 
-        public void UbaciRacun()
+        public void Izmeni()
         {
             if (!ValidirajPodatke()) return;
 
@@ -157,14 +201,15 @@ namespace Klijent.GUIKontroler.RacunKontroler
 
             double popust = kl.TipKlijenta.Pogodnost;
             double iznosPunaCena = 0;
-            foreach (StavkaRacuna s in stavke)
+            foreach (StavkaRacuna s in trenutniRacun.Stavke)
             {
                 iznosPunaCena += s.CenaStavke;
             }
             double iznosSaPopustom = iznosPunaCena * (1 - popust);
 
-            Racun r = new Racun()
+            Racun racun = new Racun()
             {
+                IdRacuna = trenutniRacun.IdRacuna,
                 Klijent = kl,
                 Prodavac = p,
                 DatumIzdavanja = datumIzdavanja,
@@ -172,26 +217,25 @@ namespace Klijent.GUIKontroler.RacunKontroler
                 IznosPunaCena = iznosPunaCena,
                 IznosSaPopustom = iznosSaPopustom,
                 NacinPlacanja = (NacinPlacanja)forma.cbNacinPlacanja.SelectedItem,
-                Stavke = stavke.ToList()
+                Stavke = trenutniRacun.Stavke.ToList()
             };
 
             try
             {
-                Communication.Instance.PosaljiZahtevBezRezultata(Operacija.ZapamtiRacun, r);
+                Communication.Instance.PosaljiZahtevBezRezultata(Operacija.IzmeniRacun, racun);
 
-                MessageBox.Show("Sistem je zapamtio račun!", "Uspeh",
+                MessageBox.Show("Sistem je izmenio račun!", "Uspeh",
                     MessageBoxButtons.OK, MessageBoxIcon.Information);
-                OcistiFormu();
+                forma.Close();
             }
             catch (ServerCommunicationException)
             {
-                MessageBox.Show("Sistem ne može da zapamti račun.", "Greška", 
+                MessageBox.Show("Sistem ne može da izmeni račun.", "Greška",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
             catch (SystemOperationException se)
             {
                 MessageBox.Show(se.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                OcistiFormu();
             }
             catch (Exception ex)
             {
@@ -199,28 +243,15 @@ namespace Klijent.GUIKontroler.RacunKontroler
             }
         }
 
-        private void OcistiFormu()
-        {
-            stavke.Clear();
-            forma.cbProdavci.SelectedIndex = -1;
-            forma.cbKlijenti.SelectedIndex = -1;
-            forma.dtpDatumIzdavanja.Value = DateTime.Now;
-            forma.tbxPunaCena.Clear();
-            forma.tbxProcenatPopusta.Clear();
-            forma.tbxCenaSaPopustom.Clear();
-            forma.cbNacinPlacanja.SelectedIndex = -1;
-            OcistiPanel();
-        }
-
         private bool ValidirajPodatke()
         {
-            if(stavke.Count == 0)
+            if (trenutniRacun.Stavke.Count == 0)
             {
                 MessageBox.Show("Račun mora imati bar jednu stavku!", "Greška",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return false;
             }
-            if(forma.cbProdavci.SelectedItem == null)
+            if (forma.cbProdavci.SelectedItem == null)
             {
                 MessageBox.Show("Polje Prodavac je obavezno!", "Greška");
                 return false;
@@ -249,27 +280,10 @@ namespace Klijent.GUIKontroler.RacunKontroler
 
         public void IzracunajCenuStavke()
         {
-            if (!int.TryParse(forma.tbxKolicina.Text, out int kolicina) || kolicina <= 0)  return;
+            if (!int.TryParse(forma.tbxKolicina.Text, out int kolicina) || kolicina <= 0) return;
             if (!double.TryParse(forma.tbxJedinicnaCena.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double jedinicnaCena)) return;
             double cenaStavke = jedinicnaCena * kolicina;
             forma.tbxCenaStavke.Text = cenaStavke.ToString("F2", CultureInfo.InvariantCulture);
-        }
-
-        private void IzracunajCenuRacuna()
-        {
-            if (!double.TryParse(forma.tbxProcenatPopusta.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double popust)) return;
-            //if (!double.TryParse(forma.tbxPunaCena.Text, NumberStyles.Any, CultureInfo.InvariantCulture, out double punaCena)) return;
-            double punaCena = 0;
-
-            foreach(var stavka in stavke)
-            {
-                punaCena += stavka.CenaStavke;
-            }
-
-            double cenaSaPopustom = punaCena * (1 - popust);
-            
-            forma.tbxPunaCena.Text = punaCena.ToString("F2", CultureInfo.InvariantCulture);
-            forma.tbxCenaSaPopustom.Text = cenaSaPopustom.ToString("F2", CultureInfo.InvariantCulture);
         }
 
         public void PopuniFormuNaOsnovuKlijenta()

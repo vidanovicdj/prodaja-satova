@@ -123,6 +123,12 @@ namespace Server
             OpstaSO so = new ZapamtiRacunSO();
             so.ExecuteTemplate(r);
         }
+        public List<Racun> VratiSveRacune()
+        {
+            OpstaSO so = new VratiListuSvihRacunaSO();
+            so.ExecuteTemplate(new Racun());
+            return ((VratiListuSvihRacunaSO)so).Rezultat.ToList();
+        }
         public List<Racun> NadjiRacune(Racun r)
         {
             OpstaSO so = new NadjiRacuneSO();

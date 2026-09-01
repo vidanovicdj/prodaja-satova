@@ -16,7 +16,7 @@ namespace Zajednicki.Domen
         public double CenaSata { get; set; }
         public int KolicinaNaStanju { get; set; }
 
-        public string ModelSata => $"{Brend} {NazivModela}";
+        public string ModelSata => $"{Brend} {SifraModela}";
 
         public string NazivTabele => "Sat";
 

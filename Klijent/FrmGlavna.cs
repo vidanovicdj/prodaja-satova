@@ -41,5 +41,11 @@ namespace Klijent
             FrmUbaciRacun frm = new FrmUbaciRacun();
             frm.ShowDialog(this);
         }
+
+        private void pretraziRacunToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            FrmPretraziRacune frm = new FrmPretraziRacune();
+            frm.ShowDialog(this);
+        }
     }
 }

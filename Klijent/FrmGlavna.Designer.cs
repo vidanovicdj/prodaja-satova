@@ -65,7 +65,7 @@
             // ubaciSatToolStripMenuItem
             // 
             ubaciSatToolStripMenuItem.Name = "ubaciSatToolStripMenuItem";
-            ubaciSatToolStripMenuItem.Size = new Size(224, 26);
+            ubaciSatToolStripMenuItem.Size = new Size(163, 26);
             ubaciSatToolStripMenuItem.Text = "Ubaci sat";
             ubaciSatToolStripMenuItem.Click += ubaciSatToolStripMenuItem_Click;
             // 
@@ -79,14 +79,14 @@
             // ubaciKlijentaToolStripMenuItem
             // 
             ubaciKlijentaToolStripMenuItem.Name = "ubaciKlijentaToolStripMenuItem";
-            ubaciKlijentaToolStripMenuItem.Size = new Size(224, 26);
+            ubaciKlijentaToolStripMenuItem.Size = new Size(213, 26);
             ubaciKlijentaToolStripMenuItem.Text = "Ubaci klijenta";
             ubaciKlijentaToolStripMenuItem.Click += ubaciKlijentaToolStripMenuItem_Click;
             // 
             // pretraziKlijentaToolStripMenuItem
             // 
             pretraziKlijentaToolStripMenuItem.Name = "pretraziKlijentaToolStripMenuItem";
-            pretraziKlijentaToolStripMenuItem.Size = new Size(224, 26);
+            pretraziKlijentaToolStripMenuItem.Size = new Size(213, 26);
             pretraziKlijentaToolStripMenuItem.Text = "Pretraži klijenta";
             pretraziKlijentaToolStripMenuItem.Click += pretraziKlijentaToolStripMenuItem_Click;
             // 
@@ -110,6 +110,7 @@
             pretraziRacunToolStripMenuItem.Name = "pretraziRacunToolStripMenuItem";
             pretraziRacunToolStripMenuItem.Size = new Size(224, 26);
             pretraziRacunToolStripMenuItem.Text = "Pretraži račun";
+            pretraziRacunToolStripMenuItem.Click += pretraziRacunToolStripMenuItem_Click;
             // 
             // sertifikatToolStripMenuItem
             // 
@@ -121,7 +122,7 @@
             // ubaciSertifikatToolStripMenuItem
             // 
             ubaciSertifikatToolStripMenuItem.Name = "ubaciSertifikatToolStripMenuItem";
-            ubaciSertifikatToolStripMenuItem.Size = new Size(224, 26);
+            ubaciSertifikatToolStripMenuItem.Size = new Size(209, 26);
             ubaciSertifikatToolStripMenuItem.Text = "Ubaci sertifikat";
             ubaciSertifikatToolStripMenuItem.Click += ubaciSertifikatToolStripMenuItem_Click;
             // 
