@@ -58,13 +58,13 @@ namespace Klijent.GUIKontroler.ProdavacKontroler
                     glavna.ShowDialog();
                 }
             }
-            catch (SystemOperationException es)
+            catch (SystemOperationException)
             {
-                MessageBox.Show(es.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ne može da se otvori glavna forma i meni", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                MessageBox.Show(ex.Message, "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Ne može da se otvori glavna forma i meni", "Greška", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
     }

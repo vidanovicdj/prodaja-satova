@@ -24,6 +24,10 @@ namespace SistemskeOperacije
                 repository.RollBack();
                 throw;
             }
+            finally
+            {
+                repository.ZatvoriKonekciju();
+            }
         }
         protected abstract void ExecuteOperation(IEntity entity);
     }

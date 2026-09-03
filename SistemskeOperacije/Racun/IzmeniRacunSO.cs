@@ -28,8 +28,10 @@ namespace SistemskeOperacije.RacunSO
             {
                 foreach(var stavkaZaBrisanje in racun.StavkeZaBrisanje)
                 {
-                    if(stavkaZaBrisanje.RbStavkeRacuna > 0)
+                    repository.Izmeni(stavkaZaBrisanje.Sat);
+                    if (stavkaZaBrisanje.RbStavkeRacuna > 0)
                     {
+                        //repository.Izmeni(stavkaZaBrisanje.Sat);
                         repository.Izbrisi(stavkaZaBrisanje);
                     }
                 }
@@ -40,6 +42,7 @@ namespace SistemskeOperacije.RacunSO
                 if(stavka.RbStavkeRacuna == 0)
                 {
                     repository.Sacuvaj(stavka);
+                    repository.Izmeni(stavka.Sat);
                 }
             }
 

@@ -28,10 +28,10 @@ namespace Zajednicki.Domen
                 if (Sat == null || Sat.IdSata == 0)
                     throw new InvalidOperationException("Stavka mora ima validan sat sa IdSata");
 
-                return $"({IdRacuna}, {Sat.IdSata}, " +
+                return $"({IdRacuna}, {Kolicina}, " +
                     $"{JedinicnaCena.ToString(CultureInfo.InvariantCulture)}, " +
                     $"{CenaStavke.ToString(CultureInfo.InvariantCulture)}," +
-                    $"{Kolicina})";
+                    $"{Sat.IdSata})";
             }
         }
 

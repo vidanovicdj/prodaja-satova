@@ -124,7 +124,7 @@ namespace Klijent.GUIKontroler.RacunKontroler
             };
 
             trenutniRacun.Stavke.Add(sr);
-            selektovanSat.KolicinaNaStanju -= 1;
+            selektovanSat.KolicinaNaStanju -= kolicina;
 
             forma.dgvStavke.DataSource = null;
             forma.dgvStavke.DataSource = trenutniRacun.Stavke;
@@ -177,13 +177,15 @@ namespace Klijent.GUIKontroler.RacunKontroler
 
             StavkaRacuna selektovana = (StavkaRacuna)forma.dgvStavke.SelectedRows[0].DataBoundItem;
 
-            if(selektovana.RbStavkeRacuna != 0)
+            selektovana.Sat.KolicinaNaStanju += selektovana.Kolicina;
+
+            if (selektovana.RbStavkeRacuna != 0)
             {
                 trenutniRacun.StavkeZaBrisanje.Add(selektovana);
             }
 
             trenutniRacun.Stavke.Remove(selektovana);
-            selektovana.Sat.KolicinaNaStanju += selektovana.Kolicina;
+            
 
             forma.dgvStavke.DataSource = null;
             forma.dgvStavke.DataSource = trenutniRacun.Stavke;

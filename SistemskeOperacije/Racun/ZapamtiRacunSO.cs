@@ -20,6 +20,7 @@ namespace SistemskeOperacije.RacunSO
             {
                 stavka.IdRacuna = racun.IdRacuna;
                 repository.Sacuvaj(stavka);
+                repository.Izmeni(stavka.Sat);
             }
         }
     }
