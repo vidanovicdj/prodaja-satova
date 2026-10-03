@@ -1,0 +1,130 @@
+-- =====================================================
+-- Prodaja satova - skripta za kreiranje baze podataka
+-- SQL Server (T-SQL)
+-- =====================================================
+
+IF DB_ID('satovi') IS NULL
+    CREATE DATABASE satovi;
+GO
+
+USE satovi;
+GO
+
+-- -----------------------------------------------------
+-- TipKlijenta
+-- -----------------------------------------------------
+CREATE TABLE TipKlijenta (
+    idTipaKlijenta INT           NOT NULL,
+    rangKlijenta   NVARCHAR(50)  NOT NULL,
+    pogodnost      FLOAT         NOT NULL,
+    CONSTRAINT PK_TipKlijenta PRIMARY KEY (idTipaKlijenta)
+);
+
+-- -----------------------------------------------------
+-- Prodavac
+-- -----------------------------------------------------
+CREATE TABLE Prodavac (
+    idProdavca       INT           NOT NULL,
+    imeProdavca      NVARCHAR(50)  NOT NULL,
+    prezimeProdavca  NVARCHAR(50)  NOT NULL,
+    datumZaposlenja  DATE          NOT NULL,
+    korisnickoIme    NVARCHAR(10)  NOT NULL,
+    lozinka          NVARCHAR(50)  NOT NULL,
+    CONSTRAINT PK_Prodavac PRIMARY KEY (idProdavca)
+);
+
+-- -----------------------------------------------------
+-- Sertifikat
+-- -----------------------------------------------------
+CREATE TABLE Sertifikat (
+    idSertifikata    INT           NOT NULL,
+    nazivSertifikata NVARCHAR(50)  NOT NULL,
+    CONSTRAINT PK_Sertifikat PRIMARY KEY (idSertifikata)
+);
+
+-- -----------------------------------------------------
+-- Sat
+-- -----------------------------------------------------
+CREATE TABLE Sat (
+    idSata            INT           NOT NULL,
+    brend             NVARCHAR(50)  NOT NULL,
+    nazivModela       NVARCHAR(50)  NOT NULL,
+    sifraModela       NVARCHAR(50)  NOT NULL,
+    tipMehanizma      NVARCHAR(50)  NOT NULL,
+    dimenzijeKucista  FLOAT         NOT NULL,
+    staklo            NVARCHAR(50)  NOT NULL,
+    materijal         NVARCHAR(50)  NOT NULL,
+    cenaSata          FLOAT         NOT NULL,
+    kolicinaNaStanju  INT           NOT NULL,
+    CONSTRAINT PK_Sat PRIMARY KEY (idSata)
+);
+
+-- -----------------------------------------------------
+-- Klijent
+-- -----------------------------------------------------
+CREATE TABLE Klijent (
+    idKlijenta      INT           NOT NULL,
+    imeKlijenta     NVARCHAR(50)  NOT NULL,
+    prezimeKlijenta NVARCHAR(50)  NOT NULL,
+    brojTelefona    NVARCHAR(50)  NOT NULL,
+    emailKlijenta   NVARCHAR(50)  NOT NULL,
+    idTipaKlijenta  INT           NOT NULL,
+    CONSTRAINT PK_Klijent PRIMARY KEY (idKlijenta),
+    CONSTRAINT FK_Klijent_TipKlijenta FOREIGN KEY (idTipaKlijenta)
+        REFERENCES TipKlijenta (idTipaKlijenta)
+);
+
+-- -----------------------------------------------------
+-- KvalifikacijaProdavca (veza Prodavac - Sertifikat)
+-- NAPOMENA: kolona se zove idSerfitikata (kao u bazi/kodu)
+-- -----------------------------------------------------
+CREATE TABLE KvalifikacijaProdavca (
+    idKvalifikacije INT           NOT NULL,
+    idProdavca      INT           NOT NULL,
+    idSerfitikata   INT           NOT NULL,
+    datumZavrsetka  DATE          NOT NULL,
+    institucija     NVARCHAR(50)  NOT NULL,
+    CONSTRAINT PK_KvalifikacijaProdavca
+        PRIMARY KEY (idKvalifikacije, idProdavca, idSerfitikata),
+    CONSTRAINT FK_Kvalifikacija_Prodavac FOREIGN KEY (idProdavca)
+        REFERENCES Prodavac (idProdavca),
+    CONSTRAINT FK_Kvalifikacija_Sertifikat FOREIGN KEY (idSerfitikata)
+        REFERENCES Sertifikat (idSertifikata)
+);
+
+-- -----------------------------------------------------
+-- Racun
+-- -----------------------------------------------------
+CREATE TABLE Racun (
+    idRacuna        INT           NOT NULL,
+    datumIzdavanja  DATE          NOT NULL,
+    procenatPopusta FLOAT         NOT NULL,
+    iznosPunaCena   FLOAT         NOT NULL,
+    iznosSaPopustom FLOAT         NOT NULL,
+    nacinPlacanja   NVARCHAR(50)  NOT NULL,
+    idProdavca      INT           NOT NULL,
+    idKlijenta      INT           NOT NULL,
+    CONSTRAINT PK_Racun PRIMARY KEY (idRacuna),
+    CONSTRAINT FK_Racun_Prodavac FOREIGN KEY (idProdavca)
+        REFERENCES Prodavac (idProdavca),
+    CONSTRAINT FK_Racun_Klijent FOREIGN KEY (idKlijenta)
+        REFERENCES Klijent (idKlijenta)
+);
+
+-- -----------------------------------------------------
+-- StavkaRacuna (slab entitet, kljuc: idRacuna + rbStavkeRacuna)
+-- -----------------------------------------------------
+CREATE TABLE StavkaRacuna (
+    idRacuna      INT    NOT NULL,
+    rbStavkeRacuna INT   NOT NULL,
+    kolicina      INT    NOT NULL,
+    jedinicnaCena FLOAT  NOT NULL,
+    cenaStavke    FLOAT  NOT NULL,
+    idSata        INT    NOT NULL,
+    CONSTRAINT PK_StavkaRacuna PRIMARY KEY (idRacuna, rbStavkeRacuna),
+    CONSTRAINT FK_StavkaRacuna_Racun FOREIGN KEY (idRacuna)
+        REFERENCES Racun (idRacuna) ON DELETE CASCADE,
+    CONSTRAINT FK_StavkaRacuna_Sat FOREIGN KEY (idSata)
+        REFERENCES Sat (idSata)
+);
+GO
